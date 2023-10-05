@@ -15,13 +15,13 @@ public class PrintStatement extends Controller {
         System.out.println("\nYou want to :");
         System.out.println("1 - Log in as Admin .");
         System.out.println("2 - Log in as Agent .");
-        System.out.println("3 - Shows Folders History .");
+        System.out.println("3 - Log in as Company .");
+        System.out.println("4 - Log in as Employer .");
         System.out.println("0 - Quitter .");
         System.out.print("->  ");
     }
 
     public static void adminOptions(){
-        System.out.println("\nAs an Admin you can : ");
         System.out.println("1 - Create new agent .");
         System.out.println("2 - Update an agent .");
         System.out.println("3 - Get an agent .");
@@ -32,11 +32,27 @@ public class PrintStatement extends Controller {
     }
 
     public static void agentOptions(){
-        System.out.println("\nAs an Agent you can : ");
         System.out.println("1 - Create new folder .");
         System.out.println("2 - Get a folder .");
         System.out.println("3 - Get all folder .");
         System.out.println("4 - delete a folder .");
+        System.out.println("0 - Quitter .");
+        System.out.print("->  ");
+    }
+
+    public static void companyOptions(){
+        System.out.println("1 - Create new employer .");
+        System.out.println("2 - Update an employer .");
+        System.out.println("3 - Get an employer .");
+        System.out.println("4 - Get all employers .");
+        System.out.println("5 - deactivate an employer .");
+        System.out.println("0 - Quitter .");
+        System.out.print("->  ");
+    }
+
+    public static void employerOptions(){
+        System.out.println("1 - get folder .");
+        System.out.println("2 - Get all folder .");
         System.out.println("0 - Quitter .");
         System.out.print("->  ");
     }

@@ -1,7 +1,7 @@
 package org.macnss.dao.impl;
 
 import org.macnss.dao.IPatient;
-import org.macnss.entity.Patient;
+import org.macnss.entity.Employer;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,15 +13,15 @@ import java.util.List;
 public class PatientDAO implements IPatient {
 
     @Override
-    public Patient insert(Patient patient)  {
+    public Employer insert(Employer employer)  {
         String sql = "INSERT INTO "+ TABLE +"(matriculate, name)  VALUES(?,?) ";
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql);){
-            preparedStatement.setString(1, patient.getMatriculate());
-            preparedStatement.setString(2, patient.getFullName());
+            preparedStatement.setString(1, employer.getMatriculate());
+            preparedStatement.setString(2, employer.getFirstName());
 
             if(preparedStatement.executeUpdate() > 0){
-                return patient;
+                return employer;
             }else {
                 return null;
             }
@@ -32,8 +32,8 @@ public class PatientDAO implements IPatient {
     }
 
     @Override
-    public Patient get(String matriculate) {
-        Patient patient = new Patient();
+    public Employer get(String matriculate) {
+        Employer employer = new Employer();
         String sql = "SELECT * FROM "+ TABLE +" WHERE matriculate = ?";
 
         try{
@@ -42,8 +42,8 @@ public class PatientDAO implements IPatient {
             ResultSet res = preparedStatement.executeQuery();
 
             if (res.next()){
-                patient.setMatricule(res.getString(MATRICULATE_COL));
-                patient.setFullName(res.getString(FULL_NAME));
+                employer.setMatriculate(res.getString(MATRICULATE_COL));
+                employer.setFirstName(res.getString(FULL_NAME));
             }else {
                 return  null;
             }
@@ -52,41 +52,41 @@ public class PatientDAO implements IPatient {
             throw new RuntimeException(e);
         }
 
-        return patient;
+        return employer;
     }
 
     @Override
-    public List<Patient> getAll() {
-        List<Patient> patients = new ArrayList<Patient>();
-        Patient patient = new Patient();
+    public List<Employer> getAll() {
+        List<Employer> employers = new ArrayList<Employer>();
+        Employer employer = new Employer();
         String sql = "SELECT * FROM "+ TABLE;
         try{
             Statement statement = connection.createStatement();
             ResultSet res = statement.executeQuery(sql);
 
             while (res.next()){
-                patient.setMatricule(res.getString(MATRICULATE_COL));
-                patient.setFullName(res.getString(FULL_NAME));
-                patients.add(patient);
+                employer.setMatriculate(res.getString(MATRICULATE_COL));
+                employer.setFirstName(res.getString(FULL_NAME));
+                employers.add(employer);
             }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return patients;
+        return employers;
     }
 
     @Override
-    public Patient update(Patient patient) {
+    public Employer update(Employer employer) {
         String sql = "UPDATE "+ TABLE +" SET fullName = ? WHERE matriculate = ?";
 
         try( PreparedStatement preparedStatement = connection.prepareStatement(sql);){
-            preparedStatement.setString(1, patient.getFullName());
-            preparedStatement.setString(4, patient.getMatriculate());
+            preparedStatement.setString(1, employer.getFirstName());
+            preparedStatement.setString(4, employer.getMatriculate());
 
             if(preparedStatement.executeUpdate() > 0){
                 System.out.println("Patient has been updated successfully .");
-                return patient;
+                return employer;
             }else {
                 System.out.println("Update of Patient has been Failed");
                 return null;

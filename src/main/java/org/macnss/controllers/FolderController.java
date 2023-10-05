@@ -33,9 +33,9 @@ public class FolderController extends Controller {
         String matriculate = scanner.nextLine();
         PrintStatement.validateIdStatement(matriculate,"Matriculate of patient");
         Folder folder = new Folder();
-        Patient patient = patientService.get(matriculate);
+        Employer employer = patientService.get(matriculate);
 
-        if(Objects.isNull(patient)){
+        if(Objects.isNull(employer)){
             boolean isNull = true;
             while (isNull){
                 System.out.println("Patient not found , please provide a valid patient matriculate .");
@@ -43,7 +43,7 @@ public class FolderController extends Controller {
                 matriculate = scanner.nextLine();
                 PrintStatement.validateIdStatement(matriculate,"Matriculate of patient");
                 if(Objects.nonNull(patientService.get(matriculate))){
-                    patient = patientService.get(matriculate);
+                    employer = patientService.get(matriculate);
                     isNull = false;
                 }
             }
@@ -51,7 +51,7 @@ public class FolderController extends Controller {
             folder.setAgent(agent);
             folder.setId(UniqueCodeGenerator.code());
             folder.setDepositDate(new Date(System.currentTimeMillis()));
-            folder.setPatient(patient);
+            folder.setPatient(employer);
             System.out.print("-> Name : ");
             String folder_name = scanner.nextLine();
             PrintStatement.validateNameStatement(folder_name, "Name");

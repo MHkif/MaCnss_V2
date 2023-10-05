@@ -9,7 +9,7 @@ public class Folder {
     private String name;
     private Date depositDate;
     private FolderStatus status = FolderStatus.WAITING;
-    private Patient patient;
+    private Employer employer;
     private float total_refund = 0;
     private Agent agent;
 
@@ -18,12 +18,12 @@ public class Folder {
     }
 
 
-    public Patient getPatient() {
-        return patient;
+    public Employer getPatient() {
+        return employer;
     }
 
-    public void setPatient(Patient patient) {
-        this.patient = patient;
+    public void setPatient(Employer employer) {
+        this.employer = employer;
     }
 
     public Agent getAgent() {
@@ -81,7 +81,7 @@ public class Folder {
                 ", Deposit At = " + depositDate +
                 ", Status = " + status +
                 ", Total Refund = " + total_refund +
-                ", Patient = \n" + patient.toString() +
+                ", Patient = \n" + employer.toString() +
                 ", Agent = \n" + agent.toString() +
                 "\n}";
     }

@@ -2,10 +2,9 @@ package org.macnss.dao.impl;
 
 import org.macnss.Enum.FolderStatus;
 import org.macnss.dao.IFolderDAO;
-import org.macnss.entity.ADocument;
 import org.macnss.entity.Agent;
+import org.macnss.entity.Employer;
 import org.macnss.entity.Folder;
-import org.macnss.entity.Patient;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -67,7 +66,7 @@ public class FolderDAO implements IFolderDAO {
                 SELECT f.*, p.fullName AS p_fullName  , a.name AS a_name, 
                 a.email AS a_email, a.password AS a_password
                 FROM folders AS f
-                INNER JOIN patients AS p ON f.matriculate = p.matriculate
+                INNER JOIN employers AS p ON f.matriculate = p.matriculate
                 INNER JOIN agents AS a ON f.agent_id = a.id WHERE f.id = ?""";
         Folder folder = new Folder();
         try {
@@ -75,7 +74,7 @@ public class FolderDAO implements IFolderDAO {
             preparedStatement.setString(1,id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
-                Patient patient = new Patient();
+                Employer employer = new Employer();
                 Agent agent = new Agent();
                 folder.setId(resultSet.getString(ID));
                 folder.setName(resultSet.getString(NAME));
@@ -83,15 +82,15 @@ public class FolderDAO implements IFolderDAO {
                 folder.setStatus(FolderStatus.valueOf(resultSet.getString(STATUS)));
                 folder.setTotal_refund(resultSet.getFloat(TOTAL_REFUND));
 
-                patient.setMatricule(resultSet.getString("matriculate"));
-                patient.setFullName(resultSet.getString("p_fullName"));
+                employer.setMatriculate(resultSet.getString("matriculate"));
+                employer.setFirstName(resultSet.getString("p_fullName"));
 
                 agent.setId(resultSet.getString("agent_id"));
                 agent.setName(resultSet.getString("a_name"));
                 agent.setEmail(resultSet.getString("a_email"));
 
                 agent.setPassword(resultSet.getString("a_password"));
-                folder.setPatient(patient);
+                folder.setPatient(employer);
                 folder.setAgent(agent);
 
 
@@ -109,7 +108,7 @@ public class FolderDAO implements IFolderDAO {
                 SELECT f.*, p.fullName AS p_fullName  , a.name AS a_name, 
                 a.email AS a_email, a.password AS a_password
                 FROM folders AS f
-                INNER JOIN patients AS p ON f.matriculate = p.matriculate
+                INNER JOIN employers AS p ON f.matriculate = p.matriculate
                 INNER JOIN agents AS a ON f.agent_id = a.id """;
         List<Folder> folders = new ArrayList<>();
         try {
@@ -117,7 +116,7 @@ public class FolderDAO implements IFolderDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
                 Folder folder = new Folder();
-                Patient patient = new Patient();
+                Employer employer = new Employer();
                 Agent agent = new Agent();
 
                 folder.setId(resultSet.getString(ID));
@@ -126,15 +125,15 @@ public class FolderDAO implements IFolderDAO {
                 folder.setStatus(FolderStatus.valueOf(resultSet.getString(STATUS)));
                 folder.setTotal_refund(resultSet.getFloat(TOTAL_REFUND));
 
-                patient.setMatricule(resultSet.getString("matriculate"));
-                patient.setFullName(resultSet.getString("p_fullName"));
+                employer.setMatriculate(resultSet.getString("matriculate"));
+                employer.setFirstName(resultSet.getString("p_fullName"));
 
                 agent.setId(resultSet.getString("agent_id"));
                 agent.setName(resultSet.getString("a_name"));
                 agent.setEmail(resultSet.getString("a_email"));
 
                 agent.setPassword(resultSet.getString("a_password"));
-                folder.setPatient(patient);
+                folder.setPatient(employer);
                 folder.setAgent(agent);
                 folders.add(folder);
             }
