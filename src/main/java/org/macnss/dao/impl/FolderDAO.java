@@ -61,7 +61,7 @@ public class FolderDAO implements IFolderDAO {
 
 
     @Override
-    public Folder get(String id) {
+    public Folder findBy(String id) {
         String sql = """
                 SELECT f.*, p.fullName AS p_fullName  , a.name AS a_name, 
                 a.email AS a_email, a.password AS a_password

@@ -61,7 +61,7 @@ public class AgentDAO implements IAgentDAO {
     }
 
     @Override
-    public Agent get(String agentId) {
+    public Agent findBy(String agentId) {
         Agent agent = new Agent();
         String sql = "SELECT * FROM "+TABLE+" WHERE "+PRIMARY_KEY+" = ?";
 

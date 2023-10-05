@@ -1,4 +1,4 @@
-package org.macnss.helpers;
+package org.macnss.Utils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

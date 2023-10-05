@@ -3,7 +3,7 @@ package org.macnss.dao.impl;
 
 import org.macnss.Database.Database;
 import org.macnss.entity.Admin;
-import org.macnss.helpers.Session;
+import org.macnss.Utils.Session;
 
 import java.sql.*;
 

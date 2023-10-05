@@ -35,7 +35,7 @@ public class EmployerDAO implements IEmployerDAO {
     }
 
     @Override
-    public Employer get(String matriculate) {
+    public Employer findBy(String matriculate) {
         Employer employer = new Employer();
         String sql = "SELECT * FROM "+ TABLE +" WHERE "+ PRIMARY_KEY +" = ?";
 
@@ -100,10 +100,10 @@ public class EmployerDAO implements IEmployerDAO {
             preparedStatement.setString(5, employer.getMatriculate());
 
             if(preparedStatement.executeUpdate() > 0){
-                System.out.println("Patient has been updated successfully .");
+                System.out.println("Employer has been updated successfully .");
                 return employer;
             }else {
-                System.out.println("Update of Patient has been Failed");
+                System.out.println("Update of Employer has been Failed");
                 return null;
             }
         } catch (SQLException e) {

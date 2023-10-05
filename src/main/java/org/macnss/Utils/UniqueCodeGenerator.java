@@ -1,4 +1,4 @@
-package org.macnss.helpers;
+package org.macnss.Utils;
 
 import java.security.SecureRandom;
 

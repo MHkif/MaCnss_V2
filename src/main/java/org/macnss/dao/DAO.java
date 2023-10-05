@@ -12,7 +12,7 @@ public interface DAO<T> {
     T save(T t) throws SQLException;
     T update(T t) throws SQLException;
     boolean deactivate(String slag) throws SQLException;
-    T get(String id) throws SQLException;
+    T findBy(String id) throws SQLException;
     List<T> getAll() throws SQLException;
 }
 

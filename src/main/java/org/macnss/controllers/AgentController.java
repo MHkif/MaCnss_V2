@@ -2,8 +2,8 @@ package org.macnss.controllers;
 
 import org.macnss.Main;
 import org.macnss.entity.*;
-import org.macnss.helpers.PrintStatement;
-import org.macnss.helpers.Validator;
+import org.macnss.Utils.PrintStatement;
+import org.macnss.Utils.Validator;
 
 public class AgentController extends Controller{
 

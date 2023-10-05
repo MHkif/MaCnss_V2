@@ -13,7 +13,7 @@ import java.util.List;
 
 public class CompanyDAO implements ICompanyDAO {
     @Override
-    public Company save(Company company) throws SQLException {
+    public Company save(Company company){
         String sql = "INSERT INTO "+ TABLE +"("+ PRIMARY_KEY +" "+COLUMNS+") VALUES("+ HOLDERS +") ";
 
         try(PreparedStatement preparedStatement = CONNECTION.prepareStatement(sql);){
@@ -34,7 +34,7 @@ public class CompanyDAO implements ICompanyDAO {
     }
 
     @Override
-    public Company update(Company company) throws SQLException {
+    public Company update(Company company) {
         String sql = "UPDATE "+ TABLE +" SET "+UPDATEHOLDERS+" WHERE "+ PRIMARY_KEY +" = ?";
 
         try(PreparedStatement preparedStatement = CONNECTION.prepareStatement(sql);){
@@ -56,12 +56,12 @@ public class CompanyDAO implements ICompanyDAO {
     }
 
     @Override
-    public boolean deactivate(String slag) throws SQLException {
+    public boolean deactivate(String slag) {
         return false;
     }
 
     @Override
-    public Company get(String id) throws SQLException {
+    public Company findBy(String id) {
         Company company = new Company();
         String sql = "SELECT * FROM "+TABLE+" WHERE "+PRIMARY_KEY+" = ?";
 
@@ -87,7 +87,7 @@ public class CompanyDAO implements ICompanyDAO {
     }
 
     @Override
-    public List<Company> getAll() throws SQLException {
+    public List<Company> getAll(){
         List<Company> companies = new ArrayList<>();
         Company company = new Company();
         String sql = "SELECT * FROM "+TABLE;
@@ -115,7 +115,7 @@ public class CompanyDAO implements ICompanyDAO {
 
 
     @Override
-    public Company login(String email, String password) throws SQLException {
+    public Company login(String email, String password) {
 
         Company company = new Company();
         String sql = "SELECT * FROM "+TABLE+" WHERE email = ? AND password = ? ";

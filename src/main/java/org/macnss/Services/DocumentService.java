@@ -10,8 +10,6 @@ public class DocumentService {
 
     private final DocumentDAO Dao = new DocumentDAO();
 
-
-
     public ADocument create(ADocument ADocument){
         if (Dao.insert(ADocument) != null){
             return ADocument;

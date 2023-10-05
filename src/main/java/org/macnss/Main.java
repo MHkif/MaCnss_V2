@@ -1,12 +1,7 @@
 package org.macnss;
 
-import org.macnss.controllers.AdminController;
 import org.macnss.controllers.Navigator;
-import org.macnss.helpers.PrintStatement;
-import org.macnss.helpers.Session;
-import org.macnss.helpers.Validator;
-
-import java.rmi.server.UID;
+import org.macnss.Utils.Session;
 
 
 public class Main {

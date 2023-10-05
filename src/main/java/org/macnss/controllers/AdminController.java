@@ -1,16 +1,16 @@
 package org.macnss.controllers;
 
 import org.macnss.Main;
-import org.macnss.Services.AdminService;
+import org.macnss.Services.AgentService;
 import org.macnss.entity.Admin;
 import org.macnss.entity.Agent;
-import org.macnss.helpers.PrintStatement;
-import org.macnss.helpers.UniqueCodeGenerator;
-import org.macnss.helpers.Validator;
+import org.macnss.Utils.PrintStatement;
+import org.macnss.Utils.UniqueCodeGenerator;
+import org.macnss.Utils.Validator;
 
 public class AdminController extends Controller {
     private Admin admin;
-    private static final AdminService adminService = new AdminService();
+    private static final AgentService agentService = new AgentService();
 
     public AdminController() {
         if(Main.SESSION.has("Admin")){
@@ -70,7 +70,7 @@ public class AdminController extends Controller {
         agent.setPassword(password);
 
 
-        if(adminService.createAgent(agent) != null){
+        if(agentService.save(agent) != null){
             System.out.println("Agent has been created successfully");
 
         }else{
@@ -86,8 +86,8 @@ public class AdminController extends Controller {
         String agentId = scanner.nextLine();
         PrintStatement.validateIdStatement(agentId, "agent");
 
-        if(adminService.getAgent(agentId) != null ){
-            Agent agent = adminService.getAgent(agentId);
+        if(agentService.findBy(agentId) != null ){
+            Agent agent = agentService.findBy(agentId);
             System.out.println("Update :");
             System.out.print("-> Name : ");
             String name = scanner.nextLine();
@@ -107,7 +107,7 @@ public class AdminController extends Controller {
 
             System.out.println(agent.toString());
 
-            if(adminService.updateAgent(agent) != null){
+            if(agentService.update(agent) != null){
                 System.out.println("Agent has been updated successfully");
             }else{
                 System.out.println("Update of Agent has been Failed");
@@ -116,14 +116,6 @@ public class AdminController extends Controller {
         }else{
             System.out.println("No agent found with the provided id .");
         }
-
-
-
-
-
-
-
-
     }
 
     public void getAgent(){
@@ -131,8 +123,8 @@ public class AdminController extends Controller {
         String agentId = scanner.nextLine();
         PrintStatement.validateIdStatement(agentId, "agent");
 
-        if(adminService.getAgent(agentId) != null ){
-            System.out.println(adminService.getAgent(agentId).toString());
+        if(agentService.findBy(agentId) != null ){
+            System.out.println(agentService.findBy(agentId).toString());
         }else{
             System.out.println("No agent found with the provided id .");
         }
@@ -140,17 +132,16 @@ public class AdminController extends Controller {
     }
 
     public void getAllAgents(){
-        adminService.getAllAgents().forEach(System.out::println);
+        agentService.getAll().forEach(System.out::println);
     }
-
 
     public void deleteAgent() {
         System.out.print("-> Enter agent id : ");
         String agentId = scanner.next();
         PrintStatement.validateIdStatement(agentId , "agent");
-        if (adminService.getAgent(agentId) != null) {
+        if (agentService.findBy(agentId) != null) {
 
-            if (adminService.deleteAgent(agentId)) {
+            if (agentService.deactivate(agentId)) {
                 System.out.println("Agent has been deleted successfully .");
             } else {
                 System.out.println("Delete of Agent has been Failed");

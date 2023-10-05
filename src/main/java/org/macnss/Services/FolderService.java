@@ -1,17 +1,17 @@
 package org.macnss.Services;
 
-import org.macnss.dao.impl.DocumentDAO;
 import org.macnss.dao.impl.FolderDAO;
 import org.macnss.entity.Folder;
 
-import java.sql.SQLException;
+
 import java.util.List;
 
-public class FolderService {
-    private final FolderDAO folderDao = new FolderDAO();
-    private final DocumentDAO documentDao = new DocumentDAO();
+public class FolderService implements Service<Folder>{
 
-    public Folder create(Folder folder){
+    private final FolderDAO folderDao = new FolderDAO();
+
+    @Override
+    public Folder save(Folder folder) {
         if (folderDao.save(folder) != null){
             return folder;
         }else {
@@ -19,19 +19,27 @@ public class FolderService {
         }
     }
 
-    public List<Folder> getAll() throws SQLException {
-
-        return folderDao.getAll();
-    }
-    public Folder get(String folderId) throws SQLException {
-
-        if (folderDao.get(folderId) != null){
-            return folderDao.get(folderId);
+    @Override
+    public Folder findBy(String folderId) {
+        if (folderDao.findBy(folderId) != null){
+            return folderDao.findBy(folderId);
         }else  {
             return  null;
         }
+    }
 
+    public List<Folder> getAll(){
+        return folderDao.getAll();
+    }
 
+    @Override
+    public boolean deactivate(String slag) {
+        return false;
+    }
+
+    @Override
+    public Folder update(Folder folder) {
+        return null;
     }
 
 

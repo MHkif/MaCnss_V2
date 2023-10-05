@@ -4,23 +4,22 @@ import org.macnss.Enum.DocumentStatus;
 import org.macnss.Enum.DocumentType;
 import org.macnss.Services.DocumentService;
 import org.macnss.Services.FolderService;
-import org.macnss.Services.PatientService;
+import org.macnss.Services.EmployerService;
 import org.macnss.entity.*;
 import org.macnss.entity.Folder;
-import org.macnss.helpers.PrintStatement;
-import org.macnss.helpers.UniqueCodeGenerator;
+import org.macnss.Utils.PrintStatement;
+import org.macnss.Utils.UniqueCodeGenerator;
 
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.sql.Date;
 
 public class FolderController extends Controller {
-    private  FolderService folderService = new FolderService();
-     PatientService patientService = new PatientService();
-    private  DocumentService documentService = new DocumentService();
+    private final FolderService folderService = new FolderService();
+     EmployerService employerService = new EmployerService();
+    private final DocumentService documentService = new DocumentService();
 
 
 
@@ -28,12 +27,11 @@ public class FolderController extends Controller {
     public void createFolder(Agent agent){
         List<ADocument> documents = new ArrayList<>();
         PrintStatement.opening("Create new folder");
-
         System.out.print("-> Matriculate of patient : ");
         String matriculate = scanner.nextLine();
         PrintStatement.validateIdStatement(matriculate,"Matriculate of patient");
         Folder folder = new Folder();
-        Employer employer = patientService.get(matriculate);
+        Employer employer = employerService.get(matriculate);
 
         if(Objects.isNull(employer)){
             boolean isNull = true;
@@ -42,8 +40,7 @@ public class FolderController extends Controller {
                 System.out.print("-> Matriculate of patient : ");
                 matriculate = scanner.nextLine();
                 PrintStatement.validateIdStatement(matriculate,"Matriculate of patient");
-                if(Objects.nonNull(patientService.get(matriculate))){
-                    employer = patientService.get(matriculate);
+                if(Objects.nonNull(employerService.get(matriculate))){
                     isNull = false;
                 }
             }
@@ -67,7 +64,7 @@ public class FolderController extends Controller {
             folder.setTotal_refund(Float.parseFloat(String.valueOf(total)));
 
             System.out.print("\n");
-            if(folderService.create(folder) != null){
+            if(folderService.save(folder) != null){
                 for (ADocument document: documents) {
                     if(documentService.create(document) != null){
                         System.out.println("\nDocument "+ document.getTitle()+" has been created successfully");
@@ -83,16 +80,15 @@ public class FolderController extends Controller {
             }
         }
     }
-    public void getAllFolder() throws SQLException {
+    public void getAllFolder(){
         PrintStatement.opening("All Folders");
         List<Folder> folders = folderService.getAll();
         folders.forEach(System.out::println);
-
         System.out.print("\nClick any key to exit .\n-> ");
         String s = scanner.nextLine();
     }
 
-    public void getFolder() throws SQLException {
+    public void getFolder(){
         PrintStatement.opening("Folder");
         System.out.print("\nTo continue click any key , Enter on 0 ta exit .\n-> ");
         String  doc_option  = scanner.nextLine();
@@ -100,7 +96,7 @@ public class FolderController extends Controller {
             System.out.print("-> Folder ID : ");
             String folder_id = scanner.nextLine();
             PrintStatement.validateIdStatement(folder_id,"Folder ID");
-            Folder folder =  folderService.get(folder_id);
+            Folder folder =  folderService.findBy(folder_id);
 
             if(Objects.isNull(folder)){
                 boolean isNull = true;
@@ -109,8 +105,8 @@ public class FolderController extends Controller {
                     System.out.print("-> Folder ID : ");
                     folder_id = scanner.nextLine();
                     PrintStatement.validateIdStatement(folder_id,"Folder ID");
-                    if(Objects.nonNull(patientService.get(folder_id))){
-                        folder = folderService.get(folder_id);
+                    if(Objects.nonNull(employerService.get(folder_id))){
+                        folder = folderService.findBy(folder_id);
                         System.out.println(folder.toString());
                         System.out.print("\nClick any key to exit .\n-> ");
                         scanner.nextLine();
@@ -119,8 +115,7 @@ public class FolderController extends Controller {
                 }
 
             }else{
-                System.out.println(folder.toString());
-
+                System.out.println(folder);
                 System.out.print("\nClick any key to exit .\n-> ");
                 String s = scanner.nextLine();
             }

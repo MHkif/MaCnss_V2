@@ -9,8 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class AdminService {
-    AdminDAO adminDAO = new AdminDAO();
-    AgentDAO agentDAO = new AgentDAO();
+    private final AdminDAO adminDAO = new AdminDAO();
 
     public Admin login(String email, String password) throws SQLException {
       Admin admin = adminDAO.login(email, password);
@@ -22,37 +21,4 @@ public class AdminService {
 
     }
 
-    public Agent createAgent(Agent agent){
-        if(agentDAO.save(agent) != null){
-            return agent;
-        }else {
-            return null;
-        }
-    }
-
-    public Agent updateAgent(Agent agent){
-        if(agentDAO.update(agent) != null){
-            return agent;
-        }else {
-            return null;
-        }
-    }
-
-    public Agent getAgent(String agentId){
-        if(agentDAO.get(agentId) != null){
-            return agentDAO.get(agentId);
-        }else {
-            return null;
-        }
-
-    }
-
-    public List<Agent> getAllAgents(){
-        List<Agent> agents = agentDAO.getAll();
-        return agents;
-    }
-
-    public boolean deleteAgent(String agentId){
-        return agentDAO.deactivate(agentId);
-    }
 }
