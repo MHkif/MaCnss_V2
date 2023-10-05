@@ -21,6 +21,9 @@ public class Navigator extends Controller {
     private static Navigator instance;
     private AdminController adminController;
     private AgentController agentController;
+
+    private final AdminService adminService = new AdminService();
+    private  final AgentService agentService = new AgentService();
     private Navigator(){
 
     }
@@ -31,10 +34,6 @@ public class Navigator extends Controller {
         }
         return instance;
     }
-
-    private final AdminService adminService = new AdminService();
-    private  final AgentService agentService = new AgentService();
-
 
 
     public void index(){
@@ -66,7 +65,7 @@ public class Navigator extends Controller {
 
     public void loginAsAdmin(){
         adminController = new AdminController();
-        System.out.println("Login as admin , Enter your creadentials :");
+        System.out.println("Login as admin , Enter your credentials :");
         System.out.print("-> Email : ");
         String email = scanner.nextLine();
         PrintStatement.validateEmailStatement(email);
@@ -77,7 +76,6 @@ public class Navigator extends Controller {
         try {
             if(adminService.login(email, password) != null){
                 Main.SESSION.set("Admin", adminService.login(email, password));
-                System.out.println(Main.SESSION.get("Admin").toString());
                 adminController.index();
             }else {
                 System.out.println("Admin not found .");
@@ -101,7 +99,6 @@ public class Navigator extends Controller {
         if(agentService.login(email, password) != null){
             LocalTime time = LocalTime.now();
             Main.SESSION.set("sendingCode", time);
-            System.out.println("The Code has been sent at "+ Main.SESSION.get("sendingCode") );
             Main.SESSION.set("Agent", agentService.login(email, password));
             Agent agent = (Agent) Main.SESSION.get("Agent");
             final String code = UniqueCodeGenerator.code();
