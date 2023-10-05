@@ -6,7 +6,6 @@ import org.macnss.entity.Admin;
 import org.macnss.entity.Agent;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AdminService {
@@ -24,7 +23,7 @@ public class AdminService {
     }
 
     public Agent createAgent(Agent agent){
-        if(agentDAO.insert(agent) != null){
+        if(agentDAO.save(agent) != null){
             return agent;
         }else {
             return null;
@@ -54,6 +53,6 @@ public class AdminService {
     }
 
     public boolean deleteAgent(String agentId){
-        return agentDAO.delete(agentId);
+        return agentDAO.deactivate(agentId);
     }
 }

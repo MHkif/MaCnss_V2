@@ -16,10 +16,10 @@ import java.util.List;
 public class FolderDAO implements IFolderDAO {
 
     @Override
-    public Folder insert(Folder folder) {
+    public Folder save(Folder folder) {
         String sql = "INSERT INTO "+TABLE+"(id, name, despositAt, status, matriculate, total_refund, agent_id) VALUES(?,?,?,?,?,?,?)";
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = CONNECTION.prepareStatement(sql);
             preparedStatement.setString(1,folder.getId());
             preparedStatement.setString(2,folder.getName());
             preparedStatement.setDate(3, (Date) folder.getDepositDate());
@@ -41,7 +41,7 @@ public class FolderDAO implements IFolderDAO {
     public Folder update(Folder folder) {
         String sql = "UPDATE "+TABLE+" SET status = ? where id = ?";
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = CONNECTION.prepareStatement(sql);
             preparedStatement.setString(1, String.valueOf(folder.getStatus()));
             preparedStatement.setString(2,folder.getId());
             int row = preparedStatement.executeUpdate();
@@ -55,7 +55,7 @@ public class FolderDAO implements IFolderDAO {
     }
 
     @Override
-    public boolean delete(String slag)  {
+    public boolean deactivate(String slag)  {
         return false;
     }
 
@@ -70,7 +70,7 @@ public class FolderDAO implements IFolderDAO {
                 INNER JOIN agents AS a ON f.agent_id = a.id WHERE f.id = ?""";
         Folder folder = new Folder();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = CONNECTION.prepareStatement(sql);
             preparedStatement.setString(1,id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
@@ -112,7 +112,7 @@ public class FolderDAO implements IFolderDAO {
                 INNER JOIN agents AS a ON f.agent_id = a.id """;
         List<Folder> folders = new ArrayList<>();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = CONNECTION.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
                 Folder folder = new Folder();

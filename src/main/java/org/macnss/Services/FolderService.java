@@ -12,7 +12,7 @@ public class FolderService {
     private final DocumentDAO documentDao = new DocumentDAO();
 
     public Folder create(Folder folder){
-        if (folderDao.insert(folder) != null){
+        if (folderDao.save(folder) != null){
             return folder;
         }else {
             return null;

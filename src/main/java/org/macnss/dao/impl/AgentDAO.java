@@ -18,7 +18,7 @@ public class AgentDAO implements IAgentDAO {
         String sql = "SELECT * FROM "+TABLE+" WHERE email = ? AND password = ? ";
 
         try{
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = CONNECTION.prepareStatement(sql);
             preparedStatement.setString(1, emailP);
             preparedStatement.setString(2, passwordP);
             ResultSet res = preparedStatement.executeQuery();
@@ -38,10 +38,10 @@ public class AgentDAO implements IAgentDAO {
         return  agent;
     }
     @Override
-    public Agent insert(Agent agent)  {
+    public Agent save(Agent agent)  {
         String sql = "INSERT INTO agents(id, name, email, password, verificationCode)  VALUES(?, ?, ?,?,?) ";
 
-        try(PreparedStatement preparedStatement = connection.prepareStatement(sql);){
+        try(PreparedStatement preparedStatement = CONNECTION.prepareStatement(sql);){
             preparedStatement.setString(1, agent.getId());
             preparedStatement.setString(2, agent.getName());
             preparedStatement.setString(3, agent.getEmail());
@@ -63,10 +63,10 @@ public class AgentDAO implements IAgentDAO {
     @Override
     public Agent get(String agentId) {
         Agent agent = new Agent();
-        String sql = "SELECT * FROM `agents` WHERE id = ?";
+        String sql = "SELECT * FROM "+TABLE+" WHERE "+PRIMARY_KEY+" = ?";
 
         try{
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = CONNECTION.prepareStatement(sql);
             preparedStatement.setString(1, agentId);
             ResultSet res = preparedStatement.executeQuery();
 
@@ -93,7 +93,7 @@ public class AgentDAO implements IAgentDAO {
         String sql = "SELECT * FROM `Agent` ;";
 
         try{
-            Statement statement = connection.createStatement();
+            Statement statement = CONNECTION.createStatement();
             ResultSet res = statement.executeQuery(sql);
 
             while (res.next()){
@@ -115,7 +115,7 @@ public class AgentDAO implements IAgentDAO {
     public Agent update(Agent agent) {
         String sql = "UPDATE agents SET name = ?, email = ?, password = ? WHERE id = ?";
 
-        try( PreparedStatement preparedStatement = connection.prepareStatement(sql);){
+        try(PreparedStatement preparedStatement = CONNECTION.prepareStatement(sql);){
             preparedStatement.setString(1, agent.getName());
             preparedStatement.setString(2, agent.getEmail());
             preparedStatement.setString(3, agent.getPassword());
@@ -135,11 +135,11 @@ public class AgentDAO implements IAgentDAO {
     }
 
     @Override
-    public boolean delete(String agentId) {
+    public boolean deactivate(String agentId) {
         String sql = "DELETE FROM agents WHERE id = ? ;";
 
         try{
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = CONNECTION.prepareStatement(sql);
             preparedStatement.setString(1, agentId);
 
             if(preparedStatement.executeUpdate() > 0){

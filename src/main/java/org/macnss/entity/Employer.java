@@ -1,11 +1,19 @@
 package org.macnss.entity;
 
+import org.macnss.Enum.EmployerStatus;
+import org.macnss.Enum.FolderStatus;
+
+import java.util.Date;
+
 public class Employer {
     private String matriculate;
     private String firstName;
     private String lastName;
-    private String birthDay;
+    private Date birthDay;
     private String salary;
+
+    private EmployerStatus status = EmployerStatus.EMPLOYED;
+
 
     public String getMatriculate() {
         return matriculate;
@@ -19,11 +27,11 @@ public class Employer {
         this.lastName = lastName;
     }
 
-    public String getBirthDay() {
+    public Date getBirthDay() {
         return birthDay;
     }
 
-    public void setBirthDay(String birthDay) {
+    public void setBirthDay(Date birthDay) {
         this.birthDay = birthDay;
     }
 
@@ -56,5 +64,13 @@ public class Employer {
                 ", Birth day = '" + birthDay + '\'' +
                 ", Salary = '" + salary + '\'' +
                 "\n}";
+    }
+
+    public EmployerStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(EmployerStatus status) {
+        this.status = status;
     }
 }

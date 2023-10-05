@@ -1,16 +1,16 @@
 package org.macnss.Services;
 
-import org.macnss.dao.impl.PatientDAO;
+import org.macnss.dao.impl.EmployerDAO;
 import org.macnss.entity.Employer;
 
 import java.util.List;
 
 public class PatientService{
 
-    private final PatientDAO Dao = new PatientDAO();
+    private final EmployerDAO Dao = new EmployerDAO();
 
     public Employer create(Employer employer){
-        if (Dao.insert(employer) != null){
+        if (Dao.save(employer) != null){
             return employer;
         }else {
             return null;
