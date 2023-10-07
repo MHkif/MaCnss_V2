@@ -42,6 +42,22 @@ public class Validator {
 
     }
 
+    public static boolean validDate(String input){
+
+        // Define the regex pattern for date validation (YYYY-MM-DD)
+        String datePattern = "^(\\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$";
+
+        // Create a Pattern object
+        Pattern pattern = Pattern.compile(datePattern);
+
+        // Match the input date string against the pattern
+        Matcher matcher = pattern.matcher(input);
+
+        // Return true if the dateStr matches the pattern, false otherwise
+        return matcher.matches();
+
+    }
+
     public static boolean validEmail(String input){
 
         String pattern = "^(.+)@(.+)$";

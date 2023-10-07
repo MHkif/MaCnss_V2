@@ -2,9 +2,7 @@ package org.macnss.controllers;
 
 
 import org.macnss.Main;
-import org.macnss.Services.AdminService;
-import org.macnss.Services.AgentService;
-import org.macnss.Services.EmailService;
+import org.macnss.Services.*;
 import org.macnss.entity.Agent;
 import org.macnss.Utils.PrintStatement;
 
@@ -15,15 +13,20 @@ import java.sql.SQLException;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
+import java.util.Objects;
 
 public class Navigator extends Controller {
 
     private static Navigator instance;
     private AdminController adminController;
     private AgentController agentController;
+    private CompanyController companyController;
+    private EmployerController employerController;
 
     private final AdminService adminService = new AdminService();
     private  final AgentService agentService = new AgentService();
+    private final CompanyService companyService = new CompanyService();
+    private  final EmployerService employerService = new EmployerService();
     private Navigator(){
 
     }
@@ -35,31 +38,34 @@ public class Navigator extends Controller {
         return instance;
     }
 
-
     public void index(){
-
         PrintStatement.opening("MaCnss Application");
-        try {
-            boolean isRunning = true;
-            while (isRunning){
-                PrintStatement.options();
-                String option = scanner.nextLine();
-                if(Validator.validInteger(option)){
-                    switch (Integer.parseInt(option)) {
-                        case 0 -> isRunning = false;
-                        case 1 -> this.loginAsAdmin();
-                        case 2 -> this.loginAsAgent();
-                        case 3 -> this.folderHistory();
+
+            try {
+                boolean isRunning = true;
+                while (isRunning){
+                    PrintStatement.options();
+                    String option = scanner.nextLine();
+                    if(Validator.validInteger(option) && Integer.parseInt(option) < 5){
+                        switch (Integer.parseInt(option)) {
+                            case 0 -> {
+                                isRunning = false;
+                                Main.SESSION.unset();
+                            }
+                            case 1 -> this.loginAsAdmin();
+                            case 2 -> this.loginAsAgent();
+                            case 3 -> this.loginAsCompany();
+                            case 4 -> this.loginAsEmployer();
+                        }
+                    }
+                    else{
+                        System.out.println("\nInvalid Entry , Choose one of the following options: ");
                     }
                 }
-                else{
-                    System.out.println("\nInvalid Entry , Choose one of the following options: ");
-                }
-            }
 
-        }catch (Exception e){
-            System.out.println("Crashed : "+e);
-        }
+            }catch (Exception e){
+                System.out.println("Crashed : "+e);
+            }
 
     }
 
@@ -138,13 +144,46 @@ public class Navigator extends Controller {
 
     }
 
+    public void loginAsCompany(){
+        companyController = new CompanyController();
+        System.out.println("Login as Company, Enter your credentials :");
+        System.out.print("-> Email : ");
+        String email = scanner.nextLine();
+        PrintStatement.validateEmailStatement(email);
+        System.out.print("-> Password : ");
+        String password = scanner.nextLine();
+        PrintStatement.validatePasswordStatement(password);
 
-    private void folderHistory(){
-
-        System.out.print("Enter you matriculate reference : ");
-        String matriculate = scanner.nextLine();
-        PrintStatement.validateIdStatement(matriculate , "matriculate");
-
+        if(companyService.login(email, password) != null){
+            System.out.println("Logged successfully");
+            Main.SESSION.set("Company", companyService.login(email, password));
+            companyController.index();
+        }else {
+            System.out.println("Company not found .");
+        }
 
     }
+
+    public void loginAsEmployer(){
+        System.out.println("Login as Employer, Enter your credentials :");
+        System.out.print("-> Email : ");
+        String email = scanner.nextLine();
+        PrintStatement.validateEmailStatement(email);
+        System.out.print("-> Password : ");
+        String password = scanner.nextLine();
+        PrintStatement.validatePasswordStatement(password);
+
+        if(employerService.login(email, password) != null){
+            Main.SESSION.set("Employer", employerService.login(email, password));
+            employerController = new EmployerController();
+            System.out.println("\nLogged successfully");
+            employerController.index();
+        }else {
+            System.out.println("\nEmployer not found .");
+        }
+
+    }
+
+
+
 }

@@ -27,19 +27,19 @@ public class FolderController extends Controller {
     public void createFolder(Agent agent){
         List<ADocument> documents = new ArrayList<>();
         PrintStatement.opening("Create new folder");
-        System.out.print("-> Matriculate of patient : ");
+        System.out.print("-> Matriculate of Owner : ");
         String matriculate = scanner.nextLine();
-        PrintStatement.validateIdStatement(matriculate,"Matriculate of patient");
+        PrintStatement.validateIdStatement(matriculate,"Matriculate of Owner");
         Folder folder = new Folder();
         Employer employer = employerService.get(matriculate);
 
         if(Objects.isNull(employer)){
             boolean isNull = true;
             while (isNull){
-                System.out.println("Patient not found , please provide a valid patient matriculate .");
+                System.out.println("Patient not found , please provide a valid matriculate .");
                 System.out.print("-> Matriculate of patient : ");
                 matriculate = scanner.nextLine();
-                PrintStatement.validateIdStatement(matriculate,"Matriculate of patient");
+                PrintStatement.validateIdStatement(matriculate,"Matriculate of Owner");
                 if(Objects.nonNull(employerService.get(matriculate))){
                     isNull = false;
                 }

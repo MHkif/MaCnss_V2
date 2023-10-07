@@ -2,6 +2,10 @@ package org.macnss.Utils;
 
 import org.macnss.controllers.Controller;
 
+import java.text.ParseException;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+
 public class PrintStatement extends Controller {
 
     public static void  opening(String text){
@@ -35,7 +39,7 @@ public class PrintStatement extends Controller {
         System.out.println("1 - Create new folder .");
         System.out.println("2 - Get a folder .");
         System.out.println("3 - Get all folder .");
-        System.out.println("4 - delete a folder .");
+        System.out.println("4 - Create new company .");
         System.out.println("0 - Quitter .");
         System.out.print("->  ");
     }
@@ -53,6 +57,7 @@ public class PrintStatement extends Controller {
     public static void employerOptions(){
         System.out.println("1 - get folder .");
         System.out.println("2 - Get all folder .");
+        System.out.println("3 - Check Retirement salary .");
         System.out.println("0 - Quitter .");
         System.out.print("->  ");
     }
@@ -64,6 +69,11 @@ public class PrintStatement extends Controller {
         scanner.nextLine();
     }
 
+    public  static Date parsingDate(String dateInput) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = sdf.parse(dateInput);
+        return date;
+    }
     public  static void validateIdStatement(String id, String field){
         if(!Validator.validString(id)){
             boolean confirmName = true;
@@ -87,6 +97,20 @@ public class PrintStatement extends Controller {
                 System.out.print("-> "+ field +" : ");
                 name  = scanner.nextLine();
                 if(Validator.validName(name)){
+                    confirmName = false;
+                }
+            }
+        }
+    }
+
+    public  static void validateDateStatement(String date, String field){
+        if(!Validator.validDate(date)){
+            boolean confirmName = true;
+            while (confirmName){
+                System.out.println("\nDate field requires a form like : DD-MM-YYYY .");
+                System.out.print("-> "+ field +" : ");
+                date  = scanner.nextLine();
+                if(Validator.validDate(date)){
                     confirmName = false;
                 }
             }

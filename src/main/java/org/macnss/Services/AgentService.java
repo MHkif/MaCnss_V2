@@ -7,10 +7,10 @@ import java.util.List;
 
 public class AgentService implements Service<Agent>{
 
-   private final AgentDAO agentDAO = new AgentDAO();
+   private final AgentDAO DAO = new AgentDAO();
 
     public Agent login(String email, String password) {
-        Agent agent = agentDAO.login(email, password);
+        Agent agent = DAO.login(email, password);
         if(agent != null){
             return agent;
         }else{
@@ -20,7 +20,7 @@ public class AgentService implements Service<Agent>{
 
     @Override
     public Agent save(Agent agent){
-        if(agentDAO.save(agent) != null){
+        if(DAO.save(agent) != null){
             return agent;
         }else {
             return null;
@@ -29,7 +29,7 @@ public class AgentService implements Service<Agent>{
 
     @Override
     public Agent update(Agent agent){
-        if(agentDAO.update(agent) != null){
+        if(DAO.update(agent) != null){
             return agent;
         }else {
             return null;
@@ -38,8 +38,8 @@ public class AgentService implements Service<Agent>{
 
     @Override
     public Agent findBy(String agentId){
-        if(agentDAO.findBy(agentId) != null){
-            return agentDAO.findBy(agentId);
+        if(DAO.findBy(agentId) != null){
+            return DAO.findBy(agentId);
         }else {
             return null;
         }
@@ -48,13 +48,13 @@ public class AgentService implements Service<Agent>{
 
     @Override
     public List<Agent> getAll(){
-        List<Agent> agents = agentDAO.getAll();
+        List<Agent> agents = DAO.getAll();
         return agents;
     }
 
     @Override
     public boolean deactivate(String agentId){
-        return agentDAO.deactivate(agentId);
+        return DAO.deactivate(agentId);
     }
 
 }

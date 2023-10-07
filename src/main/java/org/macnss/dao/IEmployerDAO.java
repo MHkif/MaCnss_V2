@@ -11,15 +11,19 @@ public interface IEmployerDAO extends DAO<Employer> {
     final String MATRICULATE_COL = "matriculate";
     final String FIRST_NAME = "firstName";
     final String LAST_NAME = "lastName";
+    final String EMAIL = "email";
+    final String PASSWORD = "password";
     final String BIRTH_DAY = "birthDay";
     final String SALARY = "salary";
     final String STATUS = "status";
 
     final String PRIMARY_KEY  = MATRICULATE_COL;
 
-    final String TABLE_COLUMNS[] = {
+    final String[] TABLE_COLUMNS = {
             FIRST_NAME,
             LAST_NAME,
+            EMAIL,
+            PASSWORD,
             BIRTH_DAY,
             SALARY,
             STATUS

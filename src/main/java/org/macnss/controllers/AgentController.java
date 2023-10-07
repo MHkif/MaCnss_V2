@@ -8,10 +8,11 @@ import org.macnss.Utils.Validator;
 public class AgentController extends Controller{
 
     private Agent agent ;
-    private static final FolderController folderController = new FolderController();
+    private final FolderController folderController = new FolderController();
+    private final CompanyController companyController = new CompanyController();
 
     public AgentController() {
-        if(Main.SESSION.has("Agent")){
+        if(!Main.SESSION.has("Agent")){
             Navigator.INSTANCE().index();
         }else {
             this.agent = (Agent) Main.SESSION.get("Agent");
@@ -28,10 +29,14 @@ public class AgentController extends Controller{
                 String option = scanner.nextLine();
                 if(Validator.validInteger(option)){
                     switch (Integer.parseInt(option)) {
-                        case 0 -> isRunning = false;
+                        case 0 -> {
+                            isRunning = false;
+                            Main.SESSION.remove("Agent");
+                        }
                         case 1 -> folderController.createFolder(agent);
                         case 2 -> folderController.getFolder();
                         case 3 -> folderController.getAllFolder();
+                        case 4 -> companyController.create();
                     }
                 }
                 else{

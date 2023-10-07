@@ -1,8 +1,10 @@
 package org.macnss.Services;
 
 import org.macnss.dao.impl.EmployerDAO;
+import org.macnss.entity.Agent;
 import org.macnss.entity.Employer;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -12,15 +14,20 @@ public class EmployerService implements Service<Employer>{
 
     private final EmployerDAO DAO = new EmployerDAO();
 
+    public Employer login(String email, String password)  {
+        Employer employer = DAO.login(email, password);
+        return Objects.nonNull(employer) ? employer : null;
+    }
+
     @Override
     public Employer save(Employer employer){
         return Objects.nonNull(DAO.save(employer))
-                ? DAO.save(employer) : null;
+                ? employer : null;
     }
     @Override
     public Employer update(Employer employer) {
         return Objects.nonNull(DAO.update(employer))
-                ? DAO.update(employer): null;
+                ? employer: null;
     }
 
     @Override
@@ -45,12 +52,13 @@ public class EmployerService implements Service<Employer>{
         long birthdayMs = covertDate.getTime();
         long date_now = dateNow.getTime();
         long timeDiff = Math.abs(date_now - birthdayMs);
-        long daysDiff = TimeUnit.DAYS.convert(timeDiff,TimeUnit.MILLISECONDS);
-        return  daysDiff >= 55;
+        long age = TimeUnit.DAYS.convert(timeDiff,TimeUnit.MILLISECONDS) / 360;
+
+        return  age >= 55;
     }
 
     public double retirementSalary(Employer employer){
-        return 0;
+       return DAO.retirementSalary(employer);
     }
 
     @Override

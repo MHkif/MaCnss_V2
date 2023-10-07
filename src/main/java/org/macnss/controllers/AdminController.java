@@ -13,7 +13,7 @@ public class AdminController extends Controller {
     private static final AgentService agentService = new AgentService();
 
     public AdminController() {
-        if(Main.SESSION.has("Admin")){
+        if(!Main.SESSION.has("Admin")){
            Navigator.INSTANCE().index();
         }else {
             this.admin = (Admin) Main.SESSION.get("Admin");
@@ -31,7 +31,10 @@ public class AdminController extends Controller {
                 String option = scanner.nextLine();
                 if(Validator.validInteger(option)){
                     switch (Integer.parseInt(option)) {
-                        case 0 -> isRunning = false;
+                        case 0 -> {
+                            isRunning = false;
+                            Main.SESSION.remove("Admin");
+                        }
                         case 1 -> this.createAgent();
                         case 2 -> this.updateAgent();
                         case 3 -> this.getAgent();
