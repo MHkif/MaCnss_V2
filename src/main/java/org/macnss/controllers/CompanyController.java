@@ -37,7 +37,7 @@ public class CompanyController extends Controller{
                                 if(Validator.validInteger(option) &&  Integer.parseInt(option) < 5){
                                         switch (Integer.parseInt(option)) {
                                                 case 0 -> {
-                                                        isRunning = false;
+                                                         isRunning = false;
                                                         Main.SESSION.remove("Company");
                                                 }
 

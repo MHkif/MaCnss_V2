@@ -144,7 +144,7 @@ public class EmployerDAO implements IEmployerDAO {
 
     public double retirementSalary(Employer employer){
 
-        double retirementSalary = Double.parseDouble(employer.getSalary()) * 0.5;
+        double retirementSalary = basedSalary(employer) * 0.5;
 
         int workedDays = workedDays(employer);
 
@@ -192,6 +192,21 @@ public class EmployerDAO implements IEmployerDAO {
         return days;
     }
 
+    public double basedSalary(Employer employer) {
+        String sql = "SELECT SUM(salary) AS 'basedSalary' FROM employerHistory WHERE  em_matriculate = ?";
+        double days = 0;
+        try (PreparedStatement preparedStatement = CONNECTION.prepareStatement(sql);) {
+            preparedStatement.setString(1, employer.getMatriculate());
+            ResultSet res = preparedStatement.executeQuery();
+            if(res.next()){
+                days = res.getDouble("basedSalary");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return days;
+    }
+
 
     public boolean associateEmployerWithCompany(Employer employer, Company company, int days) {
         String sql = "INSERT INTO employerhistory(em_matriculate, company_id, days, date, salary)" +
@@ -210,7 +225,6 @@ public class EmployerDAO implements IEmployerDAO {
         }
         return false;
     }
-
 
     public void insert() throws ParseException {
         String[] salaryHistory = {
