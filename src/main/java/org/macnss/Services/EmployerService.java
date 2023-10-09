@@ -1,17 +1,11 @@
 package org.macnss.Services;
 
-import org.macnss.Enum.EmployerStatus;
-import org.macnss.Enum.FolderStatus;
 import org.macnss.dao.impl.EmployerDAO;
-import org.macnss.entity.Agent;
 import org.macnss.entity.Company;
 import org.macnss.entity.Employer;
 import org.macnss.entity.Folder;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -54,10 +48,6 @@ public class EmployerService implements Service<Employer>{
        return folders.stream().filter(folder -> folder.getEmployer().getMatriculate().equals(employer.getMatriculate())).collect(Collectors.toList());
     }
 
-    public Employer get(String matriculate) {
-        return Objects.nonNull(findBy(matriculate) )
-                ? findBy(matriculate)  : null;
-    }
 
     public boolean ageVerified(Employer employer){
         Date covertDate = new Date(employer.getBirthDay().getTime());
@@ -70,6 +60,9 @@ public class EmployerService implements Service<Employer>{
         return  age >= 55;
     }
 
+    public int workedDays(Employer employer){
+       return DAO.workedDays(employer);
+    }
     public double retirementSalary(Employer employer){
        return DAO.retirementSalary(employer);
     }

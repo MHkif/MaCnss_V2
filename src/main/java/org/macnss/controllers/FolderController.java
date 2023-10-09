@@ -31,7 +31,7 @@ public class FolderController extends Controller {
         String matriculate = scanner.nextLine();
         PrintStatement.validateIdStatement(matriculate,"Matriculate of Owner");
         Folder folder = new Folder();
-        Employer employer = employerService.get(matriculate);
+        Employer employer = employerService.findBy(matriculate);
 
         if(Objects.isNull(employer)){
             boolean isNull = true;
@@ -40,7 +40,7 @@ public class FolderController extends Controller {
                 System.out.print("-> Matriculate of patient : ");
                 matriculate = scanner.nextLine();
                 PrintStatement.validateIdStatement(matriculate,"Matriculate of Owner");
-                if(Objects.nonNull(employerService.get(matriculate))){
+                if(Objects.nonNull(employerService.findBy(matriculate))){
                     isNull = false;
                 }
             }
@@ -83,21 +83,17 @@ public class FolderController extends Controller {
     public void getAllFolder(){
         PrintStatement.opening("All Folders");
         List<Folder> folders = folderService.getAll();
-        folders.forEach(System.out::println);
-        System.out.print("\nClick any key to exit .\n-> ");
-        String s = scanner.nextLine();
+        folders.forEach(PrintStatement::displayFolder);
+       PrintStatement.backToMenu();
     }
 
     public void getFolder(){
-        PrintStatement.opening("Folder");
-        System.out.print("\nTo continue click any key , Enter on 0 ta exit .\n-> ");
-        String  doc_option  = scanner.nextLine();
-        if(!doc_option.equals("0")){
+        PrintStatement.opening("Get Folder");
+
             System.out.print("-> Folder ID : ");
             String folder_id = scanner.nextLine();
             PrintStatement.validateIdStatement(folder_id,"Folder ID");
             Folder folder =  folderService.findBy(folder_id);
-
             if(Objects.isNull(folder)){
                 boolean isNull = true;
                 while (isNull){
@@ -105,7 +101,7 @@ public class FolderController extends Controller {
                     System.out.print("-> Folder ID : ");
                     folder_id = scanner.nextLine();
                     PrintStatement.validateIdStatement(folder_id,"Folder ID");
-                    if(Objects.nonNull(employerService.get(folder_id))){
+                    if(Objects.nonNull(employerService.findBy(folder_id))){
                         folder = folderService.findBy(folder_id);
                         System.out.println(folder.toString());
                         System.out.print("\nClick any key to exit .\n-> ");
@@ -114,12 +110,11 @@ public class FolderController extends Controller {
                     }
                 }
 
-            }else{
-                System.out.println(folder);
-                System.out.print("\nClick any key to exit .\n-> ");
-                String s = scanner.nextLine();
             }
-        }
+            else{
+                PrintStatement.displayFolder(folder);
+                PrintStatement.backToMenu();
+            }
 
     }
 

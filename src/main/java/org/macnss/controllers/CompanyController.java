@@ -117,7 +117,7 @@ public class CompanyController extends Controller{
                                 PrintStatement.validateNameStatement(matriculate, "Matriculate ");
                                 employer = employerService.findBy(matriculate);
                                 if(Objects.nonNull(employer)) {
-                                        PrintStatement.displayEmployer(employer);
+                                        PrintStatement.displayEmployer(employer, employerService.workedDays(employer));
                                         PrintStatement.updateEmployer();
                                         String option = scanner.nextLine();
                                         if (Validator.validInteger(option) && Integer.parseInt(option) < 7) {
@@ -170,7 +170,7 @@ public class CompanyController extends Controller{
                                                 }
                                                 if (employerService.update(employer) != null) {
                                                         System.out.println("\n\nEmployer has been updated successfully\n");
-                                                        PrintStatement.displayEmployer(employer);
+                                                        PrintStatement.displayEmployer(employer, employerService.workedDays(employer));
                                                 } else {
                                                         System.out.println("Update of Employer has been Failed");
                                                 }
@@ -199,7 +199,7 @@ public class CompanyController extends Controller{
                 employer = employerService.findBy(matriculate);
                 if(Objects.nonNull(employer)){
                         System.out.println("\n");
-                        PrintStatement.displayEmployer(employer);
+                        PrintStatement.displayEmployer(employer, employerService.workedDays(employer));
                 }else {
                         System.out.println("\nEmployer not found .");
 
@@ -213,7 +213,7 @@ public class CompanyController extends Controller{
                 employers = employerService.getAll();
                 if(Objects.nonNull(employers)){
                       System.out.println("\n");
-                      employers.forEach(PrintStatement::displayEmployer);
+                      employers.forEach(employer -> PrintStatement.displayEmployer(employer, employerService.workedDays(employer)));
                       PrintStatement.backToMenu();
                 }else {
                         System.out.println("\nNo employers has been found .");

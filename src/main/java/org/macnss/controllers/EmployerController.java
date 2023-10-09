@@ -59,7 +59,7 @@ public class EmployerController extends Controller{
 
     public void profile(){
         PrintStatement.opening("My Profile");
-        PrintStatement.displayEmployer(employer);
+        PrintStatement.displayEmployer(employer, employerService.workedDays(employer));
         PrintStatement.backToMenu();
     }
 
@@ -89,10 +89,15 @@ public class EmployerController extends Controller{
      }
 
      public void checkRetirementSalary(){
-         if (!employerService.ageVerified(employer) || employerService.retirementSalary(employer) == 0){
+         if (!employerService.ageVerified(employer) ){
             System.out.println("\nYou are not allowed to have a retirement salary Mr "+
-                    employer.getFirstName() + " " + employer.getLastName());
-        }else{
+                    employer.getFirstName() + " " + employer.getLastName() + " Because you are not older enough (Must be >= 55 years) .");
+        }else if(employerService.workedDays(employer) < 1320){
+             System.out.println("\nYou are not allowed to have a retirement salary Mr "+
+                     employer.getFirstName() + " " + employer.getLastName() +
+                     " Because your working days are not >= 1320 (Your working days : "+employerService.workedDays(employer)+" ) .");
+         }
+         else{
             System.out.println("\nRetirement Salary : "+ employerService.retirementSalary(employer));
         }
          PrintStatement.backToMenu();

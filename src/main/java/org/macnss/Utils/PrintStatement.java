@@ -75,7 +75,7 @@ public class PrintStatement extends Controller {
         System.out.print("->  ");
     }
 
-    public static void displayEmployer(Employer employer){
+    public static void displayEmployer(Employer employer, int wordeDays){
         System.out.println("* Employer : ");
         System.out.println("  Matriculate : " + employer.getMatriculate());
         System.out.println("  First Name : " + employer.getFirstName());
@@ -85,6 +85,7 @@ public class PrintStatement extends Controller {
         System.out.println("  Birth day : " + employer.getBirthDay().toString());
         System.out.println("  Salary : " + employer.getSalary());
         System.out.println("  Status : " + employer.getStatus());
+        System.out.println("  Worked Days : " + wordeDays);
         System.out.println();
     }
 
@@ -101,7 +102,7 @@ public class PrintStatement extends Controller {
 
     public static void backToMenu(){
         System.out.println("\n-> Tap any key to back to menu .\n");
-        scanner.nextLine();
+        String s = scanner.nextLine();
     }
 
     public  static Date parsingDate(String dateInput) throws ParseException {

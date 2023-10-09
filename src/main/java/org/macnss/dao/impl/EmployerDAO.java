@@ -216,26 +216,26 @@ public class EmployerDAO implements IEmployerDAO {
         String[] salaryHistory = {
                 "5000.00",
                 "6000.00",
+                "6000.00",
                 "7000.00",
                 "8000.00",
                 "9000.00",
-                "10000.00",
-                "12000.00",
-                "14000.00",
+                "11000.00",
+                "13000.00",
         };
 
         String sql = "INSERT INTO employerhistory(em_matriculate, company_id, days, date, salary)" +
                 " VALUES(?,?,?,?,?)";
-        Employer employer = findBy("VeBtyQMl");
+        Employer employer = findBy("HGFS433FRF");
 
         Calendar calendar = Calendar.getInstance();
 
-        int currentYear = calendar.get(Calendar.YEAR) - 7;
+        int currentYear = calendar.get(Calendar.YEAR) - 4;
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM", Locale.FRANCE);
 
         try(PreparedStatement preparedStatement = CONNECTION.prepareStatement(sql);){
 
-            for (int i = 0; i < 8; i++) {
+            for (int i = 0; i < 5; i++) {
                 int year = currentYear + i;
 
                 for (int month = 1; month <= 12; month++) {
