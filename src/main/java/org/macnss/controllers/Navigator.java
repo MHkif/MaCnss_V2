@@ -9,11 +9,12 @@ import org.macnss.Utils.PrintStatement;
 import org.macnss.Utils.UniqueCodeGenerator;
 import org.macnss.Utils.Validator;
 
+
 import java.sql.SQLException;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
-import java.util.Objects;
+
 
 public class Navigator extends Controller {
 
@@ -28,7 +29,24 @@ public class Navigator extends Controller {
     private final CompanyService companyService = new CompanyService();
     private  final EmployerService employerService = new EmployerService();
     private Navigator(){
-
+        if(Main.SESSION.has("Admin")){
+            adminController = new AdminController();
+            adminController.index();
+        }
+        else if(Main.SESSION.has("Agent")){
+            agentController = new AgentController();
+            agentController.index();
+        }
+        else if(Main.SESSION.has("Company")){
+            companyController = new CompanyController();
+            companyController.index();
+        }
+        else if(Main.SESSION.has("Employer")){
+            employerController = new EmployerController();
+            employerController.index();
+        }else {
+            System.out.print("\nWelcome Again to MaCnss Application .");
+        }
     }
 
     public static synchronized Navigator INSTANCE(){
@@ -39,13 +57,15 @@ public class Navigator extends Controller {
     }
 
     public void index(){
-        PrintStatement.opening("MaCnss Application");
+
 
             try {
                 boolean isRunning = true;
                 while (isRunning){
+                    PrintStatement.opening("MaCnss Application");
                     PrintStatement.options();
                     String option = scanner.nextLine();
+
                     if(Validator.validInteger(option) && Integer.parseInt(option) < 5){
                         switch (Integer.parseInt(option)) {
                             case 0 -> {
@@ -70,7 +90,7 @@ public class Navigator extends Controller {
     }
 
     public void loginAsAdmin(){
-        adminController = new AdminController();
+        System.out.println("\n");
         System.out.println("Login as admin , Enter your credentials :");
         System.out.print("-> Email : ");
         String email = scanner.nextLine();
@@ -82,9 +102,11 @@ public class Navigator extends Controller {
         try {
             if(adminService.login(email, password) != null){
                 Main.SESSION.set("Admin", adminService.login(email, password));
+                adminController = new AdminController();
                 adminController.index();
             }else {
                 System.out.println("Admin not found .");
+                PrintStatement.backToMenu();
             }
 
         } catch (SQLException e) {
@@ -93,8 +115,8 @@ public class Navigator extends Controller {
     }
 
     public void loginAsAgent(){
-        agentController = new AgentController();
-        System.out.println("Login as Agent, Enter your creadentials :");
+        System.out.println("\n");
+        System.out.println("Login as Agent, Enter your credentials :");
         System.out.print("-> Email : ");
         String email = scanner.nextLine();
         PrintStatement.validateEmailStatement(email);
@@ -106,6 +128,7 @@ public class Navigator extends Controller {
             LocalTime time = LocalTime.now();
             Main.SESSION.set("sendingCode", time);
             Main.SESSION.set("Agent", agentService.login(email, password));
+            agentController = new AgentController();
             Agent agent = (Agent) Main.SESSION.get("Agent");
             final String code = UniqueCodeGenerator.code();
             String text = "Code Verification sent by MaCnss : "+ code;
@@ -140,12 +163,13 @@ public class Navigator extends Controller {
             }
         }else {
             System.out.println("Agent not found .");
+            PrintStatement.backToMenu();
         }
 
     }
 
     public void loginAsCompany(){
-        companyController = new CompanyController();
+        System.out.println("\n");
         System.out.println("Login as Company, Enter your credentials :");
         System.out.print("-> Email : ");
         String email = scanner.nextLine();
@@ -155,16 +179,18 @@ public class Navigator extends Controller {
         PrintStatement.validatePasswordStatement(password);
 
         if(companyService.login(email, password) != null){
-            System.out.println("Logged successfully");
             Main.SESSION.set("Company", companyService.login(email, password));
-            companyController.index();
+                companyController = new CompanyController();
+                companyController.index();
         }else {
             System.out.println("Company not found .");
+            PrintStatement.backToMenu();
         }
 
     }
 
     public void loginAsEmployer(){
+        System.out.println("\n");
         System.out.println("Login as Employer, Enter your credentials :");
         System.out.print("-> Email : ");
         String email = scanner.nextLine();
@@ -176,10 +202,10 @@ public class Navigator extends Controller {
         if(employerService.login(email, password) != null){
             Main.SESSION.set("Employer", employerService.login(email, password));
             employerController = new EmployerController();
-            System.out.println("\nLogged successfully");
             employerController.index();
         }else {
             System.out.println("\nEmployer not found .");
+            PrintStatement.backToMenu();
         }
 
     }

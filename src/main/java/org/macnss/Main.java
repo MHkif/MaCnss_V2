@@ -14,7 +14,7 @@ import java.util.List;
 public class Main {
     public  static Session SESSION = Session.getInstance();
 
-    public static void main(String[] args) {
-        Navigator.INSTANCE().index();
+    public static void main(String[] args) throws ParseException {
+         Navigator.INSTANCE().index();
     }
 }

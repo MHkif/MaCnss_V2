@@ -48,7 +48,7 @@ public class FolderController extends Controller {
             folder.setAgent(agent);
             folder.setId(UniqueCodeGenerator.code());
             folder.setDepositDate(new Date(System.currentTimeMillis()));
-            folder.setPatient(employer);
+            folder.setEmployer(employer);
             System.out.print("-> Name : ");
             String folder_name = scanner.nextLine();
             PrintStatement.validateNameStatement(folder_name, "Name");

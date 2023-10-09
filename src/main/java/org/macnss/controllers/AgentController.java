@@ -9,7 +9,6 @@ public class AgentController extends Controller{
 
     private Agent agent ;
     private final FolderController folderController = new FolderController();
-    private final CompanyController companyController = new CompanyController();
 
     public AgentController() {
         if(!Main.SESSION.has("Agent")){
@@ -36,7 +35,6 @@ public class AgentController extends Controller{
                         case 1 -> folderController.createFolder(agent);
                         case 2 -> folderController.getFolder();
                         case 3 -> folderController.getAllFolder();
-                        case 4 -> companyController.create();
                     }
                 }
                 else{

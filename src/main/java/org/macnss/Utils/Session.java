@@ -1,5 +1,7 @@
 package org.macnss.Utils;
 
+import org.macnss.entity.Admin;
+
 import java.util.HashMap;
 
 public class Session {
@@ -7,10 +9,13 @@ public class Session {
     private HashMap<String, Object> data;
 
     private Session() {
+
         data = new HashMap<>();
+
     }
 
     public static synchronized Session getInstance() {
+
         if (instance == null) {
             instance = new Session();
         }

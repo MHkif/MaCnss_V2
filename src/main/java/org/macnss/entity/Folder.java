@@ -18,11 +18,11 @@ public class Folder {
     }
 
 
-    public Employer getPatient() {
+    public Employer getEmployer() {
         return employer;
     }
 
-    public void setPatient(Employer employer) {
+    public void setEmployer(Employer employer) {
         this.employer = employer;
     }
 

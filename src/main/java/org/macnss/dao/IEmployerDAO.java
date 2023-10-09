@@ -31,7 +31,7 @@ public interface IEmployerDAO extends DAO<Employer> {
 
    final String COLUMNS = String.join(", ", TABLE_COLUMNS);
    final String HOLDERS = ",?".repeat(TABLE_COLUMNS.length +1).replaceFirst(",", "");
-   final String UPDATEHOLDERS = String.join("= ? ,", TABLE_COLUMNS).replaceAll("(,)$", "");
+   final String UPDATEHOLDERS = String.join(" = ? ,", TABLE_COLUMNS).replaceAll("()$", " = ? ");
 
     public Employer login(String email, String password) throws SQLException;
 

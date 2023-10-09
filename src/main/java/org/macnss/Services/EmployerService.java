@@ -1,14 +1,22 @@
 package org.macnss.Services;
 
+import org.macnss.Enum.EmployerStatus;
+import org.macnss.Enum.FolderStatus;
 import org.macnss.dao.impl.EmployerDAO;
 import org.macnss.entity.Agent;
+import org.macnss.entity.Company;
 import org.macnss.entity.Employer;
+import org.macnss.entity.Folder;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class EmployerService implements Service<Employer>{
 
@@ -26,8 +34,9 @@ public class EmployerService implements Service<Employer>{
     }
     @Override
     public Employer update(Employer employer) {
-        return Objects.nonNull(DAO.update(employer))
+        return  Objects.nonNull(DAO.update(employer))
                 ? employer: null;
+
     }
 
     @Override
@@ -39,6 +48,10 @@ public class EmployerService implements Service<Employer>{
     public List<Employer> getAll() {
         return Objects.nonNull(DAO.getAll())
                 ? DAO.getAll() : null;
+    }
+
+    public List<Folder> getAllMyFolders(List<Folder> folders, Employer employer){
+       return folders.stream().filter(folder -> folder.getEmployer().getMatriculate().equals(employer.getMatriculate())).collect(Collectors.toList());
     }
 
     public Employer get(String matriculate) {
@@ -64,6 +77,10 @@ public class EmployerService implements Service<Employer>{
     @Override
     public boolean deactivate(String slag) {
         return false;
+    }
+
+    public boolean associateEmployerWithCompany( Employer employer, Company company, int days ){
+        return DAO.associateEmployerWithCompany(employer, company, days);
     }
 
 }

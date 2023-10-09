@@ -1,5 +1,6 @@
 package org.macnss.dao.impl;
 
+import org.macnss.Enum.EmployerStatus;
 import org.macnss.Enum.FolderStatus;
 import org.macnss.dao.IFolderDAO;
 import org.macnss.entity.Agent;
@@ -24,7 +25,7 @@ public class FolderDAO implements IFolderDAO {
             preparedStatement.setString(2,folder.getName());
             preparedStatement.setDate(3, (Date) folder.getDepositDate());
             preparedStatement.setString(4, String.valueOf(folder.getStatus()));
-            preparedStatement.setString(5,folder.getPatient().getMatriculate());
+            preparedStatement.setString(5,folder.getEmployer().getMatriculate());
             preparedStatement.setFloat(6,folder.getTotal_refund());
             preparedStatement.setString(7,folder.getAgent().getId());
             int row = preparedStatement.executeUpdate();
@@ -90,7 +91,7 @@ public class FolderDAO implements IFolderDAO {
                 agent.setEmail(resultSet.getString("a_email"));
 
                 agent.setPassword(resultSet.getString("a_password"));
-                folder.setPatient(employer);
+                folder.setEmployer(employer);
                 folder.setAgent(agent);
 
 
@@ -105,10 +106,9 @@ public class FolderDAO implements IFolderDAO {
     @Override
     public List<Folder> getAll(){
         String sql = """
-                SELECT f.*, p.fullName AS p_fullName  , a.name AS a_name, 
-                a.email AS a_email, a.password AS a_password
+                SELECT f.*, e.*, a.*
                 FROM folders AS f
-                INNER JOIN employers AS p ON f.matriculate = p.matriculate
+                INNER JOIN employers AS e ON f.matriculate = e.matriculate
                 INNER JOIN agents AS a ON f.agent_id = a.id """;
         List<Folder> folders = new ArrayList<>();
         try {
@@ -126,14 +126,19 @@ public class FolderDAO implements IFolderDAO {
                 folder.setTotal_refund(resultSet.getFloat(TOTAL_REFUND));
 
                 employer.setMatriculate(resultSet.getString("matriculate"));
-                employer.setFirstName(resultSet.getString("p_fullName"));
+                employer.setFirstName(resultSet.getString("firstName"));
+                employer.setLastName(resultSet.getString("lastName"));
+                employer.setEmail(resultSet.getString("e.email"));
+                employer.setPassword(resultSet.getString("e.password"));
+                employer.setBirthDay(resultSet.getDate("e.birthDay"));
+                employer.setSalary(resultSet.getString("e.salary"));
+                employer.setStatus(EmployerStatus.valueOf(resultSet.getString("e.status")));
+                agent.setId(resultSet.getString("a.id"));
+                agent.setName(resultSet.getString("a.name"));
+                agent.setEmail(resultSet.getString("a.email"));
+                agent.setPassword(resultSet.getString("a.password"));
 
-                agent.setId(resultSet.getString("agent_id"));
-                agent.setName(resultSet.getString("a_name"));
-                agent.setEmail(resultSet.getString("a_email"));
-
-                agent.setPassword(resultSet.getString("a_password"));
-                folder.setPatient(employer);
+                folder.setEmployer(employer);
                 folder.setAgent(agent);
                 folders.add(folder);
             }

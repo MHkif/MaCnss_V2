@@ -2,6 +2,7 @@ package org.macnss.controllers;
 
 import org.macnss.Main;
 import org.macnss.Services.EmployerService;
+import org.macnss.Services.FolderService;
 import org.macnss.Utils.PrintStatement;
 import org.macnss.Utils.UniqueCodeGenerator;
 import org.macnss.Utils.Validator;
@@ -9,11 +10,13 @@ import org.macnss.entity.*;
 
 import java.sql.Date;
 import java.text.ParseException;
+import java.util.Objects;
 
 public class EmployerController extends Controller{
 
     private Employer employer ;
     private final EmployerService employerService = new EmployerService();
+    private final FolderService folderService = new FolderService();
 
     public EmployerController(){
         if(!Main.SESSION.has("Employer")){
@@ -37,9 +40,10 @@ public class EmployerController extends Controller{
                             isRunning = false;
                             Main.SESSION.remove("Employer");
                         }
-                        case 1 -> this.getFolder();
-                        case 2 -> this.getAllFolder();
-                        case 3 -> this.checkRetirementSalary();
+                        case 1 -> this.profile();
+                        case 2 -> this.getFolder();
+                        case 3 -> this.getAllFolder();
+                        case 4 -> this.checkRetirementSalary();
                     }
                 }
                 else{
@@ -53,71 +57,35 @@ public class EmployerController extends Controller{
 
     }
 
-    public void create() throws ParseException {
-        Employer employer = new Employer();
-        PrintStatement.opening("Add new employer");
-        System.out.print("-> First name : ");
-        String firstName = scanner.nextLine();
-        PrintStatement.validateNameStatement(firstName, "First name ");
-
-        System.out.print("-> Last name : ");
-        String lastName = scanner.nextLine();
-        PrintStatement.validateNameStatement(lastName, "Last name ");
-
-        System.out.print("-> Email : ");
-        String email = scanner.nextLine();
-        PrintStatement.validateEmailStatement(email);
-
-        System.out.print("-> Password : ");
-        String password = scanner.nextLine();
-        PrintStatement.validatePasswordStatement(password);
-
-        System.out.print("-> Birth Day : ");
-        String birthDay = scanner.nextLine();
-        PrintStatement.validateDateStatement(birthDay, "Birth Day");
-
-        System.out.print("-> Salary : ");
-        String salary = scanner.nextLine();
-        PrintStatement.validateNumberStatement(salary, "Salary");
-        System.out.print("\n");
-
-        employer.setMatriculate(UniqueCodeGenerator.code());
-        employer.setFirstName(firstName);
-        employer.setLastName(lastName);
-        employer.setEmail(email);
-        employer.setPassword(password);
-        Date ConvertedDate =  new Date(PrintStatement.parsingDate(birthDay).getTime());
-        employer.setBirthDay(ConvertedDate);
-        employer.setSalary(salary);
-        if(employerService.save(employer) != null){
-            System.out.println("Employer has been created successfully");
-        }else{
-            System.out.println("Creation of Employer has been Failed");
-        }
+    public void profile(){
+        PrintStatement.opening("My Profile");
+        PrintStatement.displayEmployer(employer);
+        PrintStatement.backToMenu();
     }
 
-     public void update(Employer employer){
-
-     }
-
-     public void find(){
-
-     }
-
-     public void getAll(){
-
-     }
-
-     public void deactivate(Employer employer){
-
-     }
-
     public void getFolder(){
-        System.out.println("Get Folder");
+        Folder folder;
+        PrintStatement.opening("Find A Folder");
+        System.out.print("-> ID : ");
+        String id = scanner.nextLine();
+        PrintStatement.validateNameStatement(id, "Folder Id ");
+        folder = folderService.findBy(id);
+        if(Objects.nonNull(folder)){
+            PrintStatement.displayFolder(folder);
+        }else {
+            System.out.println("\nFolder not found .");
+        }
+        PrintStatement.backToMenu();
     }
 
      public void getAllFolder(){
-
+         PrintStatement.opening("Get All My Folders");
+         if ((long) employerService.getAllMyFolders(folderService.getAll(), employer).size() > 0){
+             employerService.getAllMyFolders(folderService.getAll(), employer).forEach(PrintStatement::displayFolder);
+         }else {
+             System.out.println("No folders found for this employer .");
+         }
+         PrintStatement.backToMenu();
      }
 
      public void checkRetirementSalary(){

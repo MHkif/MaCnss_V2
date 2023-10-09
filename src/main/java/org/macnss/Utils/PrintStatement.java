@@ -1,6 +1,8 @@
 package org.macnss.Utils;
 
 import org.macnss.controllers.Controller;
+import org.macnss.entity.Employer;
+import org.macnss.entity.Folder;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -9,7 +11,7 @@ import java.text.SimpleDateFormat;
 public class PrintStatement extends Controller {
 
     public static void  opening(String text){
-        System.out.println();
+        System.out.println("\n\n");
         System.out.println("|----------------------------------------------------------------|");
         System.out.println("\t\t\t\t\t\t "+ text +" \t\t\t\t\t\t\t ");
         System.out.println("|----------------------------------------------------------------|\n");
@@ -39,7 +41,6 @@ public class PrintStatement extends Controller {
         System.out.println("1 - Create new folder .");
         System.out.println("2 - Get a folder .");
         System.out.println("3 - Get all folder .");
-        System.out.println("4 - Create new company .");
         System.out.println("0 - Quitter .");
         System.out.print("->  ");
     }
@@ -49,19 +50,53 @@ public class PrintStatement extends Controller {
         System.out.println("2 - Update an employer .");
         System.out.println("3 - Get an employer .");
         System.out.println("4 - Get all employers .");
-        System.out.println("5 - deactivate an employer .");
         System.out.println("0 - Quitter .");
         System.out.print("->  ");
     }
 
     public static void employerOptions(){
-        System.out.println("1 - get folder .");
-        System.out.println("2 - Get all folder .");
-        System.out.println("3 - Check Retirement salary .");
+        System.out.println("1 - View my profile .");
+        System.out.println("2 - get folder .");
+        System.out.println("3 - Get all folder .");
+        System.out.println("4 - Check Retirement salary .");
         System.out.println("0 - Quitter .");
         System.out.print("->  ");
     }
 
+    public static void updateEmployer(){
+        System.out.println("What you want to update : ");
+        System.out.println("1 - First Name .");
+        System.out.println("2 - Last Name .");
+        System.out.println("3 - Email .");
+        System.out.println("4 - Password .");
+        System.out.println("5 - Birth Day .");
+        System.out.println("6 - Salary .");
+        System.out.println("0 - Quitter .");
+        System.out.print("->  ");
+    }
+
+    public static void displayEmployer(Employer employer){
+        System.out.println("* Employer : ");
+        System.out.println("  Matriculate : " + employer.getMatriculate());
+        System.out.println("  First Name : " + employer.getFirstName());
+        System.out.println("  Last Name : " + employer.getLastName());
+        System.out.println("  Email : " + employer.getEmail());
+        System.out.println("  Password : " + employer.getPassword());
+        System.out.println("  Birth day : " + employer.getBirthDay().toString());
+        System.out.println("  Salary : " + employer.getSalary());
+        System.out.println("  Status : " + employer.getStatus());
+        System.out.println();
+    }
+
+    public static void displayFolder(Folder folder){
+        System.out.println("* Folder : ");
+        System.out.println("  ID : " + folder.getId());
+        System.out.println("  Name : " + folder.getName());
+        System.out.println("  Deposit at : " + folder.getDepositDate());
+        System.out.println("  Total refund : " + folder.getTotal_refund());
+        System.out.println("  Status : " + folder.getStatus());
+        System.out.println();
+    }
 
 
     public static void backToMenu(){
@@ -71,8 +106,7 @@ public class PrintStatement extends Controller {
 
     public  static Date parsingDate(String dateInput) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = sdf.parse(dateInput);
-        return date;
+        return sdf.parse(dateInput);
     }
     public  static void validateIdStatement(String id, String field){
         if(!Validator.validString(id)){
@@ -107,7 +141,7 @@ public class PrintStatement extends Controller {
         if(!Validator.validDate(date)){
             boolean confirmName = true;
             while (confirmName){
-                System.out.println("\nDate field requires a form like : DD-MM-YYYY .");
+                System.out.println("\nDate field requires a form like : YYYY-MM-DD .");
                 System.out.print("-> "+ field +" : ");
                 date  = scanner.nextLine();
                 if(Validator.validDate(date)){
