@@ -1,8 +1,8 @@
 package org.macnss.Utils;
 
-import org.macnss.controllers.Controller;
-import org.macnss.entity.Employer;
-import org.macnss.entity.Folder;
+import org.macnss.Controllers.Controller;
+import org.macnss.Entities.Employer;
+import org.macnss.Entities.Folder;
 
 import java.text.ParseException;
 import java.util.Date;

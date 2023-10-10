@@ -1,7 +1,7 @@
 package org.macnss.Services;
 
-import org.macnss.dao.impl.FolderDAO;
-import org.macnss.entity.Folder;
+import org.macnss.DAO.impl.FolderDAO;
+import org.macnss.Entities.Folder;
 
 
 import java.util.List;

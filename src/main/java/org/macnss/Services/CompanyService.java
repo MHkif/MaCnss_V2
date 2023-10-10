@@ -1,7 +1,7 @@
 package org.macnss.Services;
 
-import org.macnss.dao.impl.CompanyDAO;
-import org.macnss.entity.Company;
+import org.macnss.DAO.impl.CompanyDAO;
+import org.macnss.Entities.Company;
 
 import java.util.List;
 import java.util.Objects;

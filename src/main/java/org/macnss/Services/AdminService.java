@@ -1,12 +1,9 @@
 package org.macnss.Services;
 
-import org.macnss.dao.impl.AdminDAO;
-import org.macnss.dao.impl.AgentDAO;
-import org.macnss.entity.Admin;
-import org.macnss.entity.Agent;
+import org.macnss.DAO.impl.AdminDAO;
+import org.macnss.Entities.Admin;
 
 import java.sql.SQLException;
-import java.util.List;
 
 public class AdminService {
     private final AdminDAO adminDAO = new AdminDAO();

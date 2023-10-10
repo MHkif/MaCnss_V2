@@ -1,7 +1,5 @@
 package org.macnss.Utils;
 
-import org.macnss.entity.Admin;
-
 import java.util.HashMap;
 
 public class Session {

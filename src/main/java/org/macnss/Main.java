@@ -1,6 +1,6 @@
 package org.macnss;
 
-import org.macnss.controllers.Navigator;
+import org.macnss.Controllers.Navigator;
 import org.macnss.Utils.Session;
 
 import java.text.ParseException;

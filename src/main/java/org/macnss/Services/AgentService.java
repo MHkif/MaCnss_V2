@@ -1,7 +1,7 @@
 package org.macnss.Services;
 
-import org.macnss.dao.impl.AgentDAO;
-import org.macnss.entity.Agent;
+import org.macnss.DAO.impl.AgentDAO;
+import org.macnss.Entities.Agent;
 
 import java.util.List;
 

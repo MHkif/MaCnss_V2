@@ -1,10 +1,7 @@
 package org.macnss.Services;
 
-import org.macnss.dao.impl.DocumentDAO;
-import org.macnss.entity.ADocument;
-
-import java.sql.SQLException;
-import java.util.List;
+import org.macnss.DAO.impl.DocumentDAO;
+import org.macnss.Entities.ADocument;
 
 public class DocumentService {
 

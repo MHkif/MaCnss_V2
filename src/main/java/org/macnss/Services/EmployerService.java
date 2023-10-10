@@ -1,9 +1,9 @@
 package org.macnss.Services;
 
-import org.macnss.dao.impl.EmployerDAO;
-import org.macnss.entity.Company;
-import org.macnss.entity.Employer;
-import org.macnss.entity.Folder;
+import org.macnss.DAO.impl.EmployerDAO;
+import org.macnss.Entities.Company;
+import org.macnss.Entities.Employer;
+import org.macnss.Entities.Folder;
 
 
 import java.util.Date;
